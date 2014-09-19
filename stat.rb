@@ -49,7 +49,8 @@ rescue OpenURI::HTTPError, JSON::ParserError
     mitsuba = !doc.css('.absBotDisclaimer').empty?
       # mitsuba is for 4chan and karachan, since they are compatible
     kusaba = !doc.css('.footer a[href$="cultnet.net/"],
-                      .footer a[href$="kusabax.org/"]').empty?
+                       .footer a[href$="kusabax.org/"],
+                       #footer a[href$="cultnet.net/"]').empty?
     tinyboard = !doc.css('footer a[href$="tinyboard.org/"]').empty?
     northboard = !doc.css('#software a[href$="NorthBoard/"]').empty?
     krautchan = uri =~ /krautchan\.net/
@@ -63,7 +64,7 @@ rescue OpenURI::HTTPError, JSON::ParserError
     
     # A CSS selector that would give us every thread
     thread_selector = (mitsuba|northboard|krautchan) ? ".thread" :
-                      (kusaba|tinyboard) ? 'div[id^="thread"]' :
+                      (kusaba|tinyboard) ? 'div[id^="thread"]:not(#thread_controls)' :
                       fourtwenty ? 'div[id*="thread"]' :
                         false
                         
@@ -96,7 +97,7 @@ rescue OpenURI::HTTPError, JSON::ParserError
                         
     # A selector to give us a date of a post
     date_selector = mitsuba ? ".dateTime" :
-                    kusaba ? "label:first" :
+                    kusaba ? "label:first, .post_header" :
                     tinyboard ? "time" :
                     northboard ? ".post_time" :
                     krautchan ? ".postdate" :
@@ -134,12 +135,15 @@ rescue OpenURI::HTTPError, JSON::ParserError
       # Select a date
       date = p.css(date_selector).first
       # If it can be done without parsing a date, let's do it.
+      
       if date["datetime"] # Tinyboard
         date = date["datetime"]
       elsif date["data-utc"] # 4chan
         date = Time.at(date["data-utc"].to_i)
       else # It can't be selected cleanly on kusaba, so a little hackery here
-        date = date.children.last.text.strip
+        date = date.children.select do |i|
+          i.class == Nokogiri::XML::Text
+        end.map(&:text).join
       end
           
       # Time.parse is a pretty cool guy, it can parse every date and
@@ -206,7 +210,8 @@ when "v"
   _4chan = %w[b vg v int pol a co tg sp fit]
   _8chan = %w[b v int burgers pol anime co tg sp]
   misc = %w[https://krautchan.net/int
-            http://boards.420chan.org/b]
+            http://boards.420chan.org/b
+            https://7chan.org/b]
   
   
 
