@@ -2,18 +2,6 @@ require "bundler"
 Bundler.require
 require "open-uri"
 
-# This one, so we can do [{a: 1}, {a: 2}, {a: 3}].map &[:a]
-# which results in [1, 2, 3].
-#
-# This one would be equal to array.map { |a| a[:a] }.
-#
-# This is a bit of hackery for functional coding in Ruby.
-# There is a similar idiom for working on arrays of objects,
-# you can do: array.map &:to_s instead of array.map { |a| a.to_s }
-# to apply a to_s method to every object in an array and get
-# an array of results.
-class Array; def to_proc; proc { |a| a[*self] } end end
-  
 # Some weird polish boards have invalid ssl cert, require a cookie, etc.
 def open_uri uri, &block
   open uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE, "Cookie" => "accept=1"}, &block
@@ -29,7 +17,7 @@ def stat_of uri
       # ...that are not sticky, but at most 10 threads of a page
       select { |i| i["posts"][0]["sticky"] == 0 }[0..10].
       # ...select all posts in those threads
-      map(&["posts"]).
+      map { |i| i["posts"] }.
       # ...and flatten the array
       flatten
       
