@@ -40,7 +40,7 @@ def stat_of uri
 rescue SocketError
   # If network fails, retry
   retry
-rescue OpenURI::HTTPError
+rescue OpenURI::HTTPError, JSON::ParserError
   # 4chan api doesn't work here, let's try manually parsing HTML
   begin
     doc = Nokogiri::HTML open_uri uri+"/"
@@ -52,14 +52,19 @@ rescue OpenURI::HTTPError
                       .footer a[href$="kusabax.org/"]').empty?
     tinyboard = !doc.css('footer a[href$="tinyboard.org/"]').empty?
     northboard = !doc.css('#software a[href$="NorthBoard/"]').empty?
+    krautchan = uri =~ /krautchan\.net/
+    fourtwenty = uri =~ /420chan\.org/
     
-    if not mitsuba and not tinyboard and not kusaba and not northboard
+    if not mitsuba and not tinyboard and not kusaba and not northboard \
+      and not krautchan and not fourtwenty
+      
       raise "Not supported: #{uri}"
     end
     
     # A CSS selector that would give us every thread
-    thread_selector = (mitsuba|northboard) ? ".thread" :
+    thread_selector = (mitsuba|northboard|krautchan) ? ".thread" :
                       (kusaba|tinyboard) ? 'div[id^="thread"]' :
+                      fourtwenty ? 'div[id*="thread"]' :
                         false
                         
     # A CSS selector that would determine, if a given thread is sticky or not
@@ -67,6 +72,8 @@ rescue OpenURI::HTTPError
                       kusaba ? 'img[src="pin.png"]' :
                       tinyboard ? "i.fa-thumb-tack" :
                       northboard ? 'img[src$="attach.png"]' :
+                      krautchan ? 'img[src$="sticky.png"]' :
+                      fourtwenty ? 'FIXME' :
                         false
     
     # This one should give us a part of a post, that would apply both to
@@ -75,13 +82,16 @@ rescue OpenURI::HTTPError
                         kusaba ? ".reply" :
                         tinyboard ? ".intro" :
                         northboard ? ".postinfo" :
+                        krautchan ? ".postheader" :
+                        fourtwenty ? ".thread_header, .replyheader" :
                           false
     
     # A selector to give us a post number
     postid_selector = mitsuba ? '.quotePost, a[title="Reply to this post"]' :
-                      kusaba ? ".reflink>a:last" :
+                      (kusaba|fourtwenty) ? ".reflink>a:last" :
                       tinyboard ? ">.post_no" :
                       northboard ? ".post_number > a[onclick]" :
+                      krautchan ? ".postnumber > .quotelink:last" :
                         false
                         
     # A selector to give us a date of a post
@@ -89,6 +99,8 @@ rescue OpenURI::HTTPError
                     kusaba ? "label:first" :
                     tinyboard ? "time" :
                     northboard ? ".post_time" :
+                    krautchan ? ".postdate" :
+                    fourtwenty ? ".idhighlight" :
                       false
                      
     # Select all threads...
@@ -193,11 +205,15 @@ when "pl"
 when "v"
   _4chan = %w[b vg v int pol a co tg sp fit]
   _8chan = %w[b v int burgers pol anime co tg sp]
+  misc = %w[https://krautchan.net/int
+            http://boards.420chan.org/b]
+  
+  
 
   _4chan = _4chan.map { |i| "https://boards.4chan.org/"+i }
   _8chan = _8chan.map { |i| "https://8chan.co/"+i }
 
-  chans = _4chan + _8chan
+  chans = _4chan + _8chan + misc
 end
 
 
