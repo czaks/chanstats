@@ -1,6 +1,7 @@
 require "bundler"
 Bundler.require
 require "open-uri"
+require "timeout"
 
 # Some weird polish boards have invalid ssl cert, require a cookie, etc.
 def open_uri uri, &block
@@ -196,7 +197,7 @@ when "pl"
   wilchan = %w[b vg admin]
   _8chan = %w[rzabczan heretyk flutter ebolachan
               sierpchan kib g]
-  misc = %w[http://heretyk.tk/* http://heretichan.tk/b]
+  misc = %w[http://heretyk.tk/*]
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
   kara = kara.map { |i| "http://karachan.org/"+i }
@@ -232,13 +233,23 @@ mut = Mutex.new
 chans.each do |i|
   # Spawn a thread for each board...
   ths << Thread.new do
-    # calculate stats for it and
-    k = stat_of i
-    mut.synchronize do
-      # Feedback that a given board has been handled
-      puts "Got #{i}"
-      # Push stats of a given board to our array
-      results << [i, k]
+    # Give 5 minutes for the fetching and calculations to happen.
+    begin
+      Timeout::timeout 300 do
+        # calculate stats for it and
+        k = stat_of i
+        mut.synchronize do
+          # Feedback that a given board has been handled
+          puts "Got #{i}"
+          # Push stats of a given board to our array
+          results << [i, k]
+        end
+      end
+    rescue Timeout::Error
+      mut.synchronize do
+        puts "Timeout: #{i}"
+      end
+      retry
     end
   end
 end
