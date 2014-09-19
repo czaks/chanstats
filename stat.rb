@@ -131,7 +131,7 @@ rescue OpenURI::HTTPError, JSON::ParserError
       end
       
       # Get a post id
-      pid = pid.text.strip.to_i
+      pid = pid.text.sub("No.", "").strip.to_i
       
       # Select a date
       date = p.css(date_selector).first
