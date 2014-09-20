@@ -258,13 +258,20 @@ ths.each do |i|
   i.join
 end
 
-# Output the results, sorted by the activity, in a posts per hour format
-File.open("out.html", "w") do |f|
-  f << "<!DOCTYPE html><html><body><table><tr><th>Board<th>Posts per hour</tr>"
-  results.sort { |a,b| a[1] <=> b[1] }.reverse.each do |b,c|
-    f << "<tr><td><a href='#{b}'>#{b}</a><td>#{c*3600}</tr>"
+case ARGV[1]
+when "json" # JSON output
+  File.open("history/#{Time.now.to_i}.json", "w") do |f|
+    f << results.to_json
   end
-  f << "</table></body></html>"
+else # HTML output
+  # Output the results, sorted by the activity, in a posts per hour format
+  File.open("out.html", "w") do |f|
+    f << "<!DOCTYPE html><html><body><table><tr><th>Board<th>Posts per hour</tr>"
+    results.sort { |a,b| a[1] <=> b[1] }.reverse.each do |b,c|
+      f << "<tr><td><a href='#{b}'>#{b}</a><td>#{c*3600}</tr>"
+    end
+    f << "</table></body></html>"
+  end
 end
 
 # Run an interactive console if there were any errors
