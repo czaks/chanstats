@@ -33,6 +33,11 @@ Makes statistics for popular 8chan boards and their 4chan equivalents.
 
 Same as above, but outputs them in a JSON format.
 
+    $ ./stat.rb v json
+
+Same as above, but outputs them to an SQL database (modify setup_db.rb
+to configure).
+
 
 JSON format
 -----------
