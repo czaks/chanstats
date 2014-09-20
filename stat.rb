@@ -208,11 +208,10 @@ when "pl"
   chans = misc + vi + kara + kiwi + wilchan + _8chan
 # 4chan vs 8chan revolution
 when "v"
-  _4chan = %w[b vg v int pol a co tg sp fit]
-  _8chan = %w[b v int burgers pol anime co tg sp]
+  _4chan = %w[b vg v int pol a co tg sp fit g]
+  _8chan = %w[b v int pol a co tg sp tech gg]
   misc = %w[https://krautchan.net/int
-            http://boards.420chan.org/b
-            https://7chan.org/b]
+            http://boards.420chan.org/b]
   
   
 
