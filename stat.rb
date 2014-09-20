@@ -42,7 +42,7 @@ def stat_of uri
 rescue SocketError
   # If network fails, retry
   retry
-rescue OpenURI::HTTPError, JSON::ParserError
+rescue Exception # OpenURI::HTTPError, JSON::ParserError
   # 4chan api doesn't work here, let's try manually parsing HTML
   begin
     doc = Nokogiri::HTML open_uri uri+"/"
@@ -263,6 +263,14 @@ case ARGV[1]
 when "json" # JSON output
   File.open("history/#{Time.now.to_i}.json", "w") do |f|
     f << results.to_json
+  end
+when "sql" # output to a database
+  require_relative "setup_db"
+
+  time_now = Time.now
+
+  results.each do |b,c|
+    DB[:stats].insert(timestamp: time_now, board: b, pps: c)
   end
 else # HTML output
   # Output the results, sorted by the activity, in a posts per hour format
