@@ -190,30 +190,30 @@ when "pl"
           a az ac mu tv lit vp x hk fr
           sr swag sex pro med soc trap pr psy
           meta chan mit 3 fem synch]
-  kara = %w[4 b fz z r id $ c co a edu f fa
-            h kib ku l med mil mu oc p po pony
-            sci sp tech thc trv v8 vg wall x og
-            int kara g hen s dew]
+#  kara = %w[4 b fz z r id $ c co a edu f fa
+#            h kib ku l med mil mu oc p po pony
+#            sci sp tech thc trv v8 vg wall x og
+#            int kara g hen s dew]
+  temp = %w[4 b a vg thc x jp2 i]
   kiwi = %w[b a co hob kul tec v wc kiwi]
   wilchan = %w[b vg admin]
-  _8chan = %w[rzabczan heretyk flutter ebolachan
-              sierpchan kib g]
-  misc = %w[http://heretyk.tk/*]
+  _8chan = %w[rzabczan flutter karachan vichan]
+  misc = %w[http://heretyk.tk/* http://sischan.pl/sis http://sischan.pl/int]
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
-  kara = kara.map { |i| "http://karachan.org/"+i }
+#  kara = kara.map { |i| "http://karachan.org/"+i }
+  temp = temp.map { |i| "http://www.homoseksualnipedofile.gq/"+i }
   kiwi = kiwi.map { |i| "https://kiwiszon.org/boards/"+i }
   wilchan = wilchan.map { |i| "http://wilchan.tk/"+i }
-  _8chan = _8chan.map { |i| "https://8chan.co/"+i }
+  _8chan = _8chan.map { |i| "https://8ch.net/"+i }
 
-  chans = misc + vi + kara + kiwi + wilchan + _8chan
+  chans = misc + vi + kiwi + wilchan + _8chan + temp
 # 4chan vs 8chan revolution
 when "v"
-  _4chan = %w[b vg v int pol a co tg sp fit g]
-  _8chan = %w[b v int pol a co tg sp tech gg]
+  _4chan = %w[b vg v int pol a co tg sp fit g mu]
+  _8chan = %w[b v int pol a co tg sp tech gg fit mu]
   misc = %w[https://krautchan.net/int
-            http://boards.420chan.org/b]
-  
+            http://boards.420chan.org/b]  
   
 
   _4chan = _4chan.map { |i| "https://boards.4chan.org/"+i }
@@ -279,7 +279,7 @@ else # HTML output
     results.sort { |a,b| a[1] <=> b[1] }.reverse.each do |b,c|
       f << "<tr><td><a href='#{b}'>#{b}</a><td>#{c*3600}</tr>"
     end
-    f << "</table></body></html>"
+    f << "</table><hr><address>Generated with <a href='https://github.com/czaks/chanstats'>chanstats</a></address></body></html>"
   end
 end
 
