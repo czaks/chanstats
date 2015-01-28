@@ -190,24 +190,24 @@ when "pl"
           a az ac mu tv lit vp x hk fr
           sr swag sex pro med soc trap pr psy
           meta chan mit 3 fem synch]
-#  kara = %w[4 b fz z r id $ c co a edu f fa
-#            h kib ku l med mil mu oc p po pony
-#            sci sp tech thc trv v8 vg wall x og
-#            int kara g hen s dew]
-  temp = %w[4 b a vg thc x jp2 i]
+  kara = %w[4 b fz z r id $ c co a edu f fa
+            h kib ku l med mil mu oc p po pony
+            sci sp tech thc trv v8 vg wall x og
+            int kara g hen s dew]
+#  temp = %w[4 b a vg thc x jp2 i]
   kiwi = %w[b a co hob kul tec v wc kiwi]
   wilchan = %w[b vg admin]
   _8chan = %w[rzabczan flutter karachan vichan]
   misc = %w[http://heretyk.tk/* http://sischan.pl/sis http://sischan.pl/int]
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
-#  kara = kara.map { |i| "http://karachan.org/"+i }
-  temp = temp.map { |i| "http://www.homoseksualnipedofile.gq/"+i }
+  kara = kara.map { |i| "https://homoseksualnipedofile.gq/"+i }
+#  temp = temp.map { |i| "http://www.homoseksualnipedofile.gq/"+i }
   kiwi = kiwi.map { |i| "https://kiwiszon.org/boards/"+i }
   wilchan = wilchan.map { |i| "http://wilchan.tk/"+i }
   _8chan = _8chan.map { |i| "https://8ch.net/"+i }
 
-  chans = misc + vi + kiwi + wilchan + _8chan + temp
+  chans = misc + vi + kiwi + wilchan + _8chan + kara
 # 4chan vs 8chan revolution
 when "v"
   _4chan = %w[b vg v int pol a co tg sp fit g mu]
