@@ -194,20 +194,22 @@ when "pl"
             h kib ku l med mil mu oc p po pony
             sci sp tech thc trv v8 vg wall x og
             int kara g hen s dew]
-#  temp = %w[4 b a vg thc x jp2 i]
   kiwi = %w[b a co hob kul tec v wc kiwi]
-  wilchan = %w[b vg admin]
-  _8chan = %w[rzabczan flutter karachan vichan]
-  misc = %w[http://heretyk.tk/* http://sischan.pl/sis http://sischan.pl/int]
+  wilchan = %w[b a art mf vg porn lsd h o admin chancraft]
+  lena = %w[b fa]
+  sis = %w[sis int thud admin]
+  _8chan = %w[rzabczan flutter karachan vichan gakuran kuco]
+  misc = %w[http://heretyk.tk/*]
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
-  kara = kara.map { |i| "https://homoseksualnipedofile.gq/"+i }
-#  temp = temp.map { |i| "http://www.homoseksualnipedofile.gq/"+i }
+  kara = kara.map { |i| "https://kara.8ch.net/"+i }
   kiwi = kiwi.map { |i| "https://kiwiszon.org/boards/"+i }
   wilchan = wilchan.map { |i| "http://wilchan.tk/"+i }
+  lena = lena.map { |i| "http://lenachen.eu/"+i }
+  sis = sis.map { |i| "http://sischan.pl/"+i }
   _8chan = _8chan.map { |i| "https://8ch.net/"+i }
 
-  chans = misc + vi + kiwi + wilchan + _8chan + kara
+  chans = misc + vi + kiwi + wilchan + _8chan + kara + lena + sis
 # 4chan vs 8chan revolution
 when "v"
   _4chan = %w[b vg v int pol a co tg sp fit g mu]
