@@ -52,7 +52,7 @@ rescue Exception # OpenURI::HTTPError, JSON::ParserError
       # mitsuba is for 4chan and karachan, since they are compatible
     kusaba = !doc.css('.footer a[href$="cultnet.net/"],
                        .footer a[href$="kusabax.org/"],
-                       #footer a[href$="cultnet.net/"]').empty?
+                       #footer a[href$="cultnet.net/"]').empty? | (uri =~ /heretyk\.org/)
     tinyboard = !doc.css('footer a[href$="tinyboard.org/"]').empty?
     northboard = !doc.css('#software a[href$="NorthBoard/"]').empty?
     krautchan = uri =~ /krautchan\.net/
@@ -189,7 +189,7 @@ when "pl"
           sci psl h c c++ vg lsd ku fso btc trv
           a az ac mu tv lit vp x hk fr
           sr swag sex pro med soc trap pr psy
-          meta chan mit 3 fem synch]
+          meta chan mit 3 fem synch homo dump]
   kara = %w[4 b fz z r id $ c co a edu f fa
             h kib ku l med mil mu oc p po pony
             sci sp tech thc trv v8 vg wall x og
@@ -197,19 +197,21 @@ when "pl"
   kiwi = %w[b a co hob kul tec v wc kiwi]
   wilchan = %w[b a art mf vg porn lsd h o admin chancraft]
   lena = %w[b fa]
+  heretyk = %w[b t meta]
   sis = %w[sis int thud admin]
-  _8chan = %w[rzabczan flutter karachan vichan gakuran kuco]
-  misc = %w[http://heretyk.tk/*]
+  _8chan = %w[rzabczan flutter karachan vichan gakuran kuco 4]
+  misc = []
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
   kara = kara.map { |i| "https://kara.8ch.net/"+i }
   kiwi = kiwi.map { |i| "https://kiwiszon.org/boards/"+i }
-  wilchan = wilchan.map { |i| "http://wilchan.tk/"+i }
+  wilchan = wilchan.map { |i| "http://wilchan.org/"+i }
   lena = lena.map { |i| "http://lenachen.eu/"+i }
+  heretyk = heretyk.map { |i| "http://heretyk.org/"+i }
   sis = sis.map { |i| "http://sischan.pl/"+i }
   _8chan = _8chan.map { |i| "https://8ch.net/"+i }
 
-  chans = misc + vi + kiwi + wilchan + _8chan + kara + lena + sis
+  chans = misc + vi + kiwi + wilchan + _8chan + kara + lena + heretyk + sis
 # 4chan vs 8chan revolution
 when "v"
   _4chan = %w[b vg v int pol a co tg sp fit g mu]
