@@ -196,22 +196,23 @@ when "pl"
             int kara g hen s dew]
   kiwi = %w[b a co hob kul tec v wc kiwi]
   wilchan = %w[b a art mf vg porn lsd h o admin chancraft]
-  lena = %w[b fa]
   heretyk = %w[b t meta]
   sis = %w[sis int thud admin]
   _8chan = %w[rzabczan flutter karachan vichan gakuran kuco 4]
+  _8chpl = JSON.load(Net::HTTP.get("8ch.pl", "/boards.json")).map { |i| i['uri'] }
+
   misc = []
             
   vi = vi.map { |i| "https://pl.vichan.net/"+i }
   kara = kara.map { |i| "https://kara.8ch.net/"+i }
   kiwi = kiwi.map { |i| "https://kiwiszon.org/boards/"+i }
-  wilchan = wilchan.map { |i| "http://wilchan.org/"+i }
-  lena = lena.map { |i| "http://lenachen.eu/"+i }
+  wilchan = wilchan.map { |i| "https://wilchan.org/"+i }
   heretyk = heretyk.map { |i| "http://heretyk.org/"+i }
   sis = sis.map { |i| "http://sischan.pl/"+i }
   _8chan = _8chan.map { |i| "https://8ch.net/"+i }
+  _8chpl = _8chpl.map { |i| "http://8ch.pl/"+i }
 
-  chans = misc + vi + kiwi + wilchan + _8chan + kara + lena + heretyk + sis
+  chans = misc + vi + kiwi + wilchan + _8chan + _8chpl + kara + heretyk + sis
 # 4chan vs 8chan revolution
 when "v"
   _4chan = %w[b vg v int pol a co tg sp fit g mu]
